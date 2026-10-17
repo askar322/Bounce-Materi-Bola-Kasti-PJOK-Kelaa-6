@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MPI PJOK Kelas VI — Bola Kasti</title>
+<style>
+:root{--green:#17643a;--green2:#23834d;--mint:#e8f6ed;--cream:#fff9e9;--ink:#173326;--muted:#607468;--blue:#dceeff;--gold:#ffca58;--red:#b93838;--line:#d7e6dc}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f2f7f3;color:var(--ink);line-height:1.5}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 15px;font-weight:700;transition:.15s}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+.primary{background:var(--green);color:#fff}.primary:hover{background:#104c2a}.secondary{background:#e3f2e8;color:var(--green);border:1px solid #b6d8c1}.gold{background:var(--gold);color:#382800}.danger{background:#fde7e7;color:#9b2424}.muted{color:var(--muted)}.small{font-size:.88rem}.tiny{font-size:.78rem}
+.app{max-width:1100px;margin:auto;min-height:100vh;background:#fff;box-shadow:0 5px 30px #17332612}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 22px;background:#104c2a;color:#fff;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:.02em}.brand span{color:#ffda79}.top-actions{display:flex;gap:8px;align-items:center}.top-actions button{padding:8px 11px;font-size:.9rem}
+main{padding:24px;min-height:68vh}.screen{display:none;animation:fade .22s ease}.screen.active{display:block}@keyframes fade{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,#12552f,#278b52);color:#fff;border-radius:24px;padding:clamp(22px,5vw,48px);display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:24px;overflow:hidden}
+.hero h1{font-size:clamp(2rem,5vw,3.8rem);line-height:1.04;margin:10px 0}.hero p{max-width:620px}.eyebrow{font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#c6f4d5}
+.hero-art{width:100%;max-width:390px;justify-self:center}.hero .primary{background:#ffcf5c;color:#3d2a00;padding:14px 22px}
+h2{font-size:clamp(1.55rem,3vw,2.2rem);margin:0 0 8px;color:#155a34}h3{margin:0 0 8px;color:#155a34}p{margin:.35rem 0 1rem}.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 5px 15px #17442a08}.menu-card{min-height:150px;text-align:left;display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid var(--line);color:var(--ink)}.menu-card:hover{transform:translateY(-2px);border-color:#7ab28b}.menu-icon{font-size:1.8rem}.menu-card strong{font-size:1.05rem}.menu-card span:last-child{font-size:.87rem;color:var(--muted);font-weight:400}
+.pill{display:inline-block;background:#dff2e5;color:#155a34;border-radius:999px;padding:5px 10px;font-size:.8rem;font-weight:800}.callout{background:#fff7df;border-left:5px solid #f4bd43;padding:14px 16px;border-radius:10px;margin:14px 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.actions button{min-width:120px}
+.tech-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.tech-tabs button[aria-pressed="true"]{background:var(--green);color:#fff}.tech-panel{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}.artbox{background:linear-gradient(#eaf8ee,#d7f0de);border-radius:18px;padding:10px}.artbox svg{display:block;width:100%;height:auto;max-height:310px}
+.step-list{padding-left:22px}.step-list li{margin:8px 0}.label{font-size:.8rem;font-weight:800;color:#5c7667;text-transform:uppercase;letter-spacing:.08em}
+.sim-wrap{background:#e8f5e8;border-radius:20px;padding:14px}.field{width:100%;display:block;border-radius:14px;background:#b9e3a0}.sim-controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.sim-controls button[aria-pressed="true"]{outline:3px solid #ffca58}.status{padding:12px 14px;border-radius:12px;background:#eef8f0;margin-top:12px}.status.good{background:#dff5e4;color:#155a34}.status.try{background:#fff1d6;color:#75500a}
+.question{padding:18px;border:1px solid var(--line);border-radius:16px;margin:14px 0}.options{display:grid;gap:8px;margin-top:12px}.option{background:#f7faf7;border:1px solid #d4e2d7;color:var(--ink);text-align:left}.option.selected{border:2px solid var(--green);background:#e5f5e9}.option.correct{background:#dff5e4;border-color:#279653}.option.wrong{background:#fde7e7;border-color:#d65b5b}.progress{height:9px;border-radius:99px;background:#e2ebe4;overflow:hidden}.progress>div{height:100%;width:0;background:#23834d;transition:width .2s}
+input[type=text],textarea{width:100%;border:1px solid #b9cfc0;border-radius:10px;padding:12px;background:#fff;color:var(--ink)}textarea{min-height:100px;resize:vertical}.score{font-size:3rem;font-weight:900;color:var(--green);line-height:1}
+.footer{padding:18px 24px;background:#f1f7f2;color:#5b7063;font-size:.83rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hidden{display:none!important}.feedback{font-weight:700;margin-top:10px}.checkrow{display:flex;gap:10px;align-items:flex-start;margin:9px 0}.checkrow input{margin-top:5px}
+@media(max-width:760px){main{padding:16px}.hero{grid-template-columns:1fr}.hero-art{max-width:280px;grid-row:1}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:1fr}.tech-panel{grid-template-columns:1fr}.topbar{padding:12px 16px}.footer{padding:16px}.hero h1{font-size:2.4rem}}
+@media(max-width:420px){.grid,.grid.two{grid-template-columns:1fr}.top-actions{width:100%}.top-actions button{flex:1}.actions button{flex:1}.card{padding:14px}}
+@media print{.topbar,.actions,.top-actions,button{display:none!important}body,.app{background:#fff;box-shadow:none}main{padding:0}.screen{display:none!important}.screen.active{display:block!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand">🏃 MPI PJOK <span>• BOLA KASTI</span></div>
+  <div class="top-actions">
+    <button class="secondary" id="homeBtn" type="button">⌂ Menu Utama</button>
+    <button class="secondary" id="audioBtn" type="button" aria-pressed="false">🔊 Audio: Mati</button>
+  </div>
+</header>
+<main>
+<section class="screen active" id="splash">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Media Pembelajaran Interaktif • Fase C</div>
+      <h1>Ayo Bermain<br><span style="color:#ffda79">Bola Kasti!</span></h1>
+      <p>Kenali, pilih, dan praktikkan tiga teknik lemparan: melambung, mendatar, dan menggelinding.</p>
+      <p><strong> PJOK Kelas VI • SD Negeri 9 Kodeoha</strong><br>Tahun Ajaran 2026/2027</p>
+      <button class="primary" type="button" data-go="menu">MULAI BELAJAR →</button>
+    </div>
+    <svg class="hero-art" viewBox="0 0 380 300" role="img" aria-label="Ilustrasi siswa bermain kasti">
+      <circle cx="190" cy="145" r="130" fill="#ffffff" opacity=".1"/><path d="M15 230 Q190 185 365 230 L365 290 L15 290Z" fill="#74c95f"/>
+      <path d="M75 230 L190 125 L305 230" fill="none" stroke="#f9e9a5" stroke-width="4" stroke-dasharray="8 8"/>
+      <g transform="translate(70 93)"><circle cx="0" cy="0" r="22" fill="#a86d43"/><path d="M-22 -4 Q-15 -32 12 -22 L22 -5Z" fill="#272b28"/><path d="M-25 28 Q0 12 25 28 L32 94 L-31 94Z" fill="#f7fbf5"/><path d="M-24 40 L-48 72 M23 40 L47 25" stroke="#a86d43" stroke-width="12" stroke-linecap="round"/><path d="M-16 91 L-20 132 M17 91 L32 130" stroke="#253c82" stroke-width="15" stroke-linecap="round"/><path d="M-20 133 L-36 137 M32 130 L48 137" stroke="#fff" stroke-width="10" stroke-linecap="round"/></g>
+      <g transform="translate(270 105)"><circle cx="0" cy="0" r="22" fill="#a86d43"/><path d="M-22 -4 Q-15 -32 12 -22 L22 -5Z" fill="#292c2a"/><path d="M-25 28 Q0 12 25 28 L32 94 L-31 94Z" fill="#ffce55"/><path d="M-24 40 L-48 25 M23 40 L48 66" stroke="#a86d43" stroke-width="12" stroke-linecap="round"/><path d="M-16 91 L-25 132 M17 91 L32 130" stroke="#23834d" stroke-width="15" stroke-linecap="round"/><path d="M-25 133 L-40 137 M32 130 L48 137" stroke="#fff" stroke-width="10" stroke-linecap="round"/></g>
+      <path d="M111 78 Q175 7 237 76" stroke="#ffda79" stroke-width="4" stroke-dasharray="7 7" fill="none"/><circle cx="178" cy="46" r="12" fill="#fff" stroke="#d6e8dc" stroke-width="3"/>
+    </svg>
+  </div>
+  <div class="grid three" style="margin-top:18px">
+    <div class="card"><span class="pill">01</span><h3 style="margin-top:10px">Kenali teknik</h3><p class="small muted">Pahami arah dan fungsi setiap lemparan.</p></div>
+    <div class="card"><span class="pill">02</span><h3 style="margin-top:10px">Coba simulasi</h3><p class="small muted">Pilih teknik yang sesuai dengan situasi.</p></div>
+    <div class="card"><span class="pill">03</span><h3 style="margin-top:10px">Uji pemahaman</h3><p class="small muted">Jawab kuis dan lihat hasil belajarmu.</p></div>
+  </div>
+</section>
+
+<section class="screen" id="menu">
+  <div class="section-head"><div><div class="eyebrow" style="color:#23834d">Selamat datang, siswa kelas VI!</div><h2>Menu Pembelajaran</h2><p class="muted">Pilih bagian yang ingin kamu pelajari. Mulai dari apersepsi, lalu lanjutkan ke materi dan simulasi.</p></div><span class="pill">Fase C</span></div>
+  <div class="grid">
+    <button class="menu-card" data-go="profil"><span class="menu-icon">👩‍🏫</span><strong>Profil</strong><span>Identitas pembelajaran</span></button>
+    <button class="menu-card" data-go="apersepsi"><span class="menu-icon">💭</span><strong>Apersepsi</strong><span>Pertanyaan pemantik</span></button>
+    <button class="menu-card" data-go="awal"><span class="menu-icon">📝</span><strong>Asesmen Awal</strong><span>Cek pengetahuan awal</span></button>
+    <button class="menu-card" data-go="materi"><span class="menu-icon">📘</span><strong>Materi</strong><span>Tiga teknik lemparan</span></button>
+    <button class="menu-card" data-go="simulasi"><span class="menu-icon">🎯</span><strong>Simulasi</strong><span>Pilih teknik yang tepat</span></button>
+    <button class="menu-card" data-go="kuis"><span class="menu-icon">🧠</span><strong>Kuis Interaktif</strong><span>3 soal dan skor otomatis</span></button>
+    <button class="menu-card" data-go="akhir"><span class="menu-icon">🏅</span><strong>Asesmen Akhir</strong><span>Uji pemahaman setelah belajar</span></button>
+    <button class="menu-card" data-go="refleksi"><span class="menu-icon">✍️</span><strong>Refleksi</strong><span>Ceritakan pengalamanmu</span></button>
+  </div>
+  <div class="callout"><strong>🎯 Tujuan belajar:</strong> kamu mampu membedakan tiga teknik lemparan, memilih teknik sesuai situasi, dan mempraktikkannya dengan aman serta sportif.</div>
+</section>
+
+<section class="screen" id="profil">
+  <div class="section-head"><div><span class="pill">Informasi</span><h2>Profil Pembelajaran</h2></div></div>
+  <div class="grid two">
+    <div class="card"><h3>Identitas</h3><p><strong>Satuan Pendidikan:</strong> SD Negeri 9 Kodeoha</p><p><strong>Mata Pelajaran:</strong> Pendidikan Jasmani, Olahraga, dan Kesehatan (PJOK)</p><p><strong>Kelas/Fase:</strong> VI / C</p><p><strong>Tahun Ajaran:</strong> 2026/2027</p><p><strong>Materi:</strong> Permainan bola kasti</p></div>
+    <div class="card"><h3>Target pembelajaran</h3><ol class="step-list"><li>Mengenali arah lemparan melambung, mendatar, dan menggelinding.</li><li>Menjelaskan tahapan dasar gerak lemparan.</li><li>Memilih teknik sesuai situasi permainan.</li><li>Menunjukkan kerja sama dan keselamatan.</li></ol></div>
+  </div>
+  <div class="actions"><button class="secondary" data-go="menu">← Menu</button><button class="primary" data-go="apersepsi">Lanjut →</button></div>
+</section>
+
+<section class="screen" id="apersepsi">
+  <div class="section-head"><div><span class="pill">Ayo berpikir</span><h2>Apersepsi: Pernahkah Kamu Melempar Bola?</h2></div></div>
+  <div class="card">
+    <p>Bayangkan kamu sedang bermain bola bersama teman. Kadang bola perlu dilempar tinggi, kadang lurus ke depan, dan kadang diarahkan rendah agar bergulir di tanah.</p>
+    <h3>Menurutmu, apakah semua situasi menggunakan teknik lemparan yang sama?</h3>
+    <div class="options" id="apersepsiOptions">
+      <button class="option" data-answer="yes">Ya, semua lemparan sama.</button>
+      <button class="option" data-answer="no">Tidak, teknik dipilih sesuai arah dan tujuan.</button>
+    </div>
+    <div id="apersepsiFeedback" class="status hidden" aria-live="polite"></div>
+  </div>
+  <div class="actions"><button class="secondary" data-go="menu">← Menu</button><button class="primary" data-go="awal">Lanjut ke asesmen awal →</button></div>
+</section>
+
+<section class="screen" id="awal">
+  <div class="section-head"><div><span class="pill">Diagnostik</span><h2>Asesmen Awal</h2><p class="muted">Pilih jawaban yang menurutmu benar. Hasil ini membantu mengetahui pemahaman awalmu.</p></div></div>
+  <div id="pretestContainer"></div>
+  <div class="actions"><button class="secondary" data-go="menu">← Menu</button><button class="primary" id="submitPre">Periksa asesmen awal</button></div>
+  <div id="preResult" class="status hidden" aria-live="polite"></div>
+</section>
+
+<section class="screen" id="materi">
+  <div class="section-head"><div><span class="pill">Belajar konsep</span><h2>Kenali Tiga Teknik Lemparan</h2><p class="muted">Pilih tab untuk mempelajari arah, cara, dan penggunaan setiap teknik.</p></div></div>
+  <div class="tech-tabs" role="group" aria-label="Pilih teknik">
+    <button class="secondary" data-tech="melambung" aria-pressed="true">↗ Melambung</button>
+    <button class="secondary" data-tech="mendatar" aria-pressed="false">→ Mendatar</button>
+    <button class="secondary" data-tech="menggelinding" aria-pressed="false">↘ Menggelinding</button>
+  </div>
+  <div class="card tech-panel">
+    <div class="artbox" id="techArt"></div>
+    <div><div class="label" id="techLabel">Teknik 1</div><h3 id="techTitle">Lemparan Melambung</h3><p id="techDescription"></p><h3>Langkah melakukan</h3><ol class="step-list" id="techSteps"></ol><div class="callout" id="techUse"></div></div>
+  </div>
+  <div class="callout"><strong>Ingat keselamatan:</strong> pastikan area lemparan kosong, arahkan bola ke sasaran, beri jarak yang cukup, dan jangan melempar jika ada orang di jalur bola.</div>
+  <div class="actions"><button class="secondary" data-go="menu">← Menu</button><button class="secondary" data-go="simulasi">Coba simulasi →</button><button class="primary" data-go="kuis">Lanjut ke kuis →</button></div>
+</section>
+
+<section class="screen" id="simulasi">
+  <div class="section-head"><div><span class="pill">Praktik virtual</span><h2>Simulasi: Pilih Lemparan yang Tepat</h2><p class="muted">Baca situasi, pilih teknik, lalu tekan tombol Lempar.</p></div></div>
+  <div class="sim-wrap">
+    <div id="scenarioText" class="card" style="margin-bottom:12px"><strong>Situasi 1:</strong> Teman berada agak jauh. Bola perlu melewati lintasan tinggi.</div>
+    <svg id="simSvg" class="field" viewBox="0 0 700 300" role="img" aria-label="Simulasi lemparan bola di lapangan">
+      <rect width="700" height="300" rx="14" fill="#bfe7a7"/><path d="M0 210 Q350 165 700 210 L700 300 L0 300Z" fill="#7fca69"/><path d="M35 245 L350 75 L665 245" fill="none" stroke="#fff4c2" stroke-width="3" stroke-dasharray="8 8" opacity=".9"/>
+      <g transform="translate(100 112)"><circle cx="0" cy="0" r="21" fill="#a86d43"/><path d="M-21 -5 Q-15 -28 10 -21 L20 -4Z" fill="#252b28"/><path d="M-23 25 L22 25 L28 95 L-28 95Z" fill="#f9fafb"/><path d="M-18 92 L-22 132 M17 92 L28 132" stroke="#23437c" stroke-width="14" stroke-linecap="round"/><path d="M-18 40 L-42 67 M20 40 L48 20" stroke="#a86d43" stroke-width="10" stroke-linecap="round"/></g>
+      <g transform="translate(595 112)"><circle cx="0" cy="0" r="21" fill="#a86d43"/><path d="M-21 -5 Q-15 -28 10 -21 L20 -4Z" fill="#252b28"/><path d="M-23 25 L22 25 L28 95 L-28 95Z" fill="#ffcf5c"/><path d="M-18 92 L-22 132 M17 92 L28 132" stroke="#17643a" stroke-width="14" stroke-linecap="round"/><path d="M-18 40 L-42 20 M20 40 L45 64" stroke="#a86d43" stroke-width="10" stroke-linecap="round"/></g>
+      <path id="trajectory" d="M150 150 Q350 -10 550 150" fill="none" stroke="#e59a24" stroke-width="5" stroke-dasharray="9 7"/>
+      <circle id="simBall" cx="150" cy="150" r="11" fill="#fff" stroke="#cf3b2e" stroke-width="4"/>
+      <text x="100" y="275" text-anchor="middle" font-size="16" font-weight="bold" fill="#174d2d">PELEMPAR</text><text x="595" y="275" text-anchor="middle" font-size="16" font-weight="bold" fill="#174d2d">SASARAN</text>
+    </svg>
+  </div>
+  <div class="sim-controls" role="group" aria-label="Pilih jenis lemparan">
+    <button class="secondary" data-simtech="melambung" aria-pressed="true">↗ Melambung</button>
+    <button class="secondary" data-simtech="mendatar" aria-pressed="false">→ Mendatar</button>
+    <button class="secondary" data-simtech="menggelinding" aria-pressed="false">↘ Menggelinding</button>
+  </div>
+  <div class="actions"><button class="primary" id="throwBtn">⚾ Lempar!</button><button class="secondary" id="nextScenario">Situasi Berikutnya →</button><button class="secondary" id="resetSim">Ulangi</button></div>
+  <div id="simFeedback" class="status" aria-live="polite">Pilih teknik yang sesuai dengan situasi di atas.</div>
+  <div class="callout"><strong>Tantangan berpikir kritis:</strong> mengapa teknik tertentu lebih cocok untuk situasi ini? Pertimbangkan arah bola, jarak teman, ketepatan, dan keselamatan.</div>
+  <div class="actions"><button class="secondary" data-go="materi">← Kembali ke materi</button><button class="primary" data-go="kuis">Lanjut ke kuis →</button></div>
+</section>
+
+<section class="screen" id="kuis">
+  <div class="section-head"><div><span class="pill">Tantangan 3 soal</span><h2>Kuis Interaktif</h2><p class="muted">Pilih satu jawaban untuk setiap soal. Skor dihitung otomatis di perangkat ini.</p></div></div>
+  <div class="progress" aria-label="Progres kuis"><div id="quizProgress"></div></div>
+  <div id="quizContainer"></div>
+  <div class="actions"><button class="secondary" data-go="materi">← Pelajari lagi</button><button class="primary" id="submitQuiz">Periksa jawaban</button><button class="secondary" id="retryQuiz">Ulangi kuis</button></div>
+  <div id="quizResult" class="status hidden" aria-live="polite"></div>
+</section>
+
+<section class="screen" id="akhir">
+  <div class="section-head"><div><span class="pill">Cek pemahaman</span><h2>Asesmen Akhir</h2><p class="muted">Jawab tiga pertanyaan setelah mempelajari materi dan simulasi.</p></div></div>
+  <div id="posttestContainer"></div>
+  <div class="actions"><button class="secondary" data-go="menu">← Menu</button><button class="primary" id="submitPost">Periksa asesmen akhir</button></div>
+  <div id="postResult" class="status hidden" aria-live="polite"></div>
+</section>
+
+<section class="screen" id="refleksi">
+  <div class="section-head"><div><span class="pill">Pikirkan pengalamanmu</span><h2>Refleksi Belajar</h2><p class="muted">Tidak ada jawaban benar atau salah. Jawablah dengan jujur.</p></div></div>
+  <div class="card">
+    <label for="refTechnique"><strong>1. Teknik mana yang paling kamu pahami?</strong></label>
+    <div class="options"><label class="checkrow"><input type="radio" name="refTechnique" value="Melambung"> Melambung</label><label class="checkrow"><input type="radio" name="refTechnique" value="Mendatar"> Mendatar</label><label class="checkrow"><input type="radio" name="refTechnique" value="Menggelinding"> Menggelinding</label></div>
+    <label for="refChallenge"><strong>2. Apa yang masih ingin kamu latih?</strong></label><textarea id="refChallenge" placeholder="Contoh: mengarahkan bola tepat ke sasaran..."></textarea>
+    <label for="refSafety"><strong>3. Bagaimana cara bermain dengan aman?</strong></label><textarea id="refSafety" placeholder="Tuliskan satu atau dua cara menjaga keselamatan..."></textarea>
+    <div class="actions"><button class="primary" id="saveReflection">Simpan refleksi</button><button class="secondary" id="finishBtn">Selesai</button></div>
+    <div id="reflectionFeedback" class="status hidden" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="screen" id="selesai">
+  <div class="hero" style="grid-template-columns:1fr;text-align:center">
+    <div><div style="font-size:3.5rem">🏆</div><div class="eyebrow">Pembelajaran selesai</div><h1>Hebat, Kamu Sudah Belajar!</h1><p style="margin:12px auto;max-width:650px">Kamu telah mengenal lemparan melambung, mendatar, dan menggelinding. Teruslah berlatih dengan benar, bekerja sama, sportif, dan mengutamakan keselamatan.</p><button class="primary" data-go="menu">Kembali ke Menu Utama</button> <button class="secondary" data-go="materi">Ulangi Materi</button></div>
+  </div>
+  <div class="grid three" style="margin-top:18px"><div class="card"><div class="label">Asesmen awal</div><div class="score" id="finalPre">—</div><p class="small muted">Skor awal</p></div><div class="card"><div class="label">Kuis</div><div class="score" id="finalQuiz">—</div><p class="small muted">Skor latihan</p></div><div class="card"><div class="label">Asesmen akhir</div><div class="score" id="finalPost">—</div><p class="small muted">Skor akhir</p></div></div>
+  <div class="callout">Catatan guru: skor pada media ini merupakan umpan balik pembelajaran. Penilaian keterampilan gerak tetap perlu dilakukan melalui praktik langsung dan observasi guru.</div>
+</section>
+</main>
+<footer class="footer"><span>MPI PJOK • SD Negeri 9 Kodeoha • Kelas VI Fase C</span><span>2026/2027 • Dirancang untuk penggunaan offline</span></footer>
+</div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const state={screen:'splash',tech:'melambung',simTech:'melambung',scenario:0,simScore:0,simDone:[],preScore:null,quizScore:null,postScore:null,quizAnswers:[null,null,null],preAnswers:[null,null,null],postAnswers:[null,null,null],audio:false};
+function go(id){$$('.screen').forEach(s=>s.classList.toggle('active',s.id===id));state.screen=id;window.scrollTo({top:0,behavior:'smooth'});if(id==='selesai')updateFinal();}
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('#homeBtn').addEventListener('click',()=>go('menu'));
+const techs={
+ melambung:{label:'Teknik 1',title:'Lemparan Melambung',desc:'Bola bergerak melalui lintasan tinggi dan melengkung menuju sasaran. Sesuaikan kekuatan dengan jarak.',steps:['Berdiri seimbang dengan kaki terbuka selebar bahu.','Pegang bola dan tarik tangan ke belakang.','Langkahkan kaki yang berlawanan dengan tangan lempar.','Ayunkan tangan ke depan atas dan lepaskan bola ke arah sasaran.','Lanjutkan ayunan dan jaga keseimbangan.'],use:'Cocok ketika situasi membutuhkan lintasan tinggi, misalnya mengirim bola ke teman yang agak jauh.',path:'M150 150 Q350 -15 550 150',color:'#e59a24'},
+ mendatar:{label:'Teknik 2',title:'Lemparan Mendatar',desc:'Bola bergerak relatif lurus ke depan. Fokuskan pandangan pada sasaran dan kontrol kekuatan.',steps:['Berdiri seimbang dengan satu kaki sedikit di depan.','Pegang bola dan tarik tangan ke belakang.','Arahkan pandangan dan bahu ke sasaran.','Langkahkan kaki ke depan sambil mengayunkan tangan.','Lepaskan bola ke depan dan ikuti gerakan secara alami.'],use:'Cocok untuk mengirim bola langsung kepada teman yang berada di depan melalui lintasan relatif lurus.',path:'M150 150 L550 150',color:'#2476d2'},
+ menggelinding:{label:'Teknik 3',title:'Lemparan Menggelinding',desc:'Bola diarahkan rendah agar bergulir di permukaan tanah. Kontrol arah dan kekuatan lemparan.',steps:['Berdiri dengan lutut sedikit ditekuk.','Pegang bola dan condongkan badan sedikit ke depan.','Ayunkan tangan dari belakang ke depan bawah.','Lepaskan bola dekat permukaan tanah.','Arahkan bola agar bergulir menuju sasaran.'],use:'Cocok saat bola perlu bergerak rendah dan bergulir di tanah.',path:'M150 220 Q340 235 550 220',color:'#bd7b20'}
+};
+function artSvg(tech){let t=techs[tech];let path=t.path;return `<svg viewBox="0 0 600 300" role="img" aria-label="Lintasan ${t.title}"><rect width="600" height="300" rx="14" fill="#e8f7eb"/><path d="M0 220 Q300 195 600 220 L600 300 L0 300Z" fill="#9ed68a"/><path d="${path}" fill="none" stroke="${t.color}" stroke-width="7" stroke-dasharray="10 8" stroke-linecap="round"/><circle cx="150" cy="${tech==='menggelinding'?220:150}" r="15" fill="#fff" stroke="#b63d30" stroke-width="5"/><circle cx="550" cy="${tech==='menggelinding'?220:150}" r="13" fill="#ffcf5c" stroke="#8a6220" stroke-width="3"/><g transform="translate(92 110)"><circle cx="0" cy="0" r="22" fill="#a86d43"/><path d="M-22 -5 Q-15 -30 12 -20 L20 -3Z" fill="#282c29"/><path d="M-23 26 L22 26 L28 94 L-28 94Z" fill="#fff"/><path d="M-17 90 L-23 130 M17 90 L30 130" stroke="#23437c" stroke-width="14" stroke-linecap="round"/><path d="M-18 40 L-40 65 M20 40 L48 22" stroke="#a86d43" stroke-width="11" stroke-linecap="round"/></g><g transform="translate(510 110)"><circle cx="0" cy="0" r="22" fill="#a86d43"/><path d="M-22 -5 Q-15 -30 12 -20 L20 -3Z" fill="#282c29"/><path d="M-23 26 L22 26 L28 94 L-28 94Z" fill="#ffcf5c"/><path d="M-17 90 L-23 130 M17 90 L30 130" stroke="#17643a" stroke-width="14" stroke-linecap="round"/></g><text x="90" y="270" text-anchor="middle" font-size="16" font-weight="bold" fill="#174d2d">PELEMPAR</text><text x="510" y="270" text-anchor="middle" font-size="16" font-weight="bold" fill="#174d2d">SASARAN</text></svg>`}
+function renderTech(tech){state.tech=tech;let t=techs[tech];$('#techArt').innerHTML=artSvg(tech);$('#techLabel').textContent=t.label;$('#techTitle').textContent=t.title;$('#techDescription').textContent=t.desc;$('#techSteps').innerHTML=t.steps.map(s=>`<li>${s}</li>`).join('');$('#techUse').innerHTML='<strong>Kapan digunakan?</strong><br>'+t.use;$$('[data-tech]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tech===tech)));}
+$$('[data-tech]').forEach(b=>b.addEventListener('click',()=>renderTech(b.dataset.tech)));renderTech('melambung');
+$('#apersepsiOptions').addEventListener('click',e=>{let b=e.target.closest('button[data-answer]');if(!b)return;$('#apersepsiFeedback').classList.remove('hidden');$('#apersepsiFeedback').textContent=b.dataset.answer==='no'?'Tepat! Arah, tujuan, dan situasi menentukan teknik lemparan yang sesuai.':'Coba pikirkan lagi. Arah dan tujuan lemparan dapat berbeda dalam permainan.';$('#apersepsiFeedback').className='status '+(b.dataset.answer==='no'?'good':'try');});
+const preQ=[
+ {q:'1. Bola dengan lintasan tinggi disebut lemparan …',opts:['Melambung','Mendatar','Menggelinding'],a:0},
+ {q:'2. Bola yang bergerak bergulir di tanah menggunakan lemparan …',opts:['Melambung','Mendatar','Menggelinding'],a:2},
+ {q:'3. Sebelum melempar bola, kita sebaiknya …',opts:['Melihat sasaran dan memastikan aman','Melempar tanpa melihat','Melempar ke arah teman yang tidak siap'],a:0}
+];
+const quizQ=[
+ {q:'Bola perlu melewati lintasan tinggi menuju teman. Teknik yang tepat adalah …',opts:['Lemparan mendatar','Lemparan melambung','Lemparan menggelinding'],a:1,why:'Lemparan melambung membentuk lintasan tinggi dan melengkung.'},
+ {q:'Teknik yang mengarahkan bola relatif lurus ke depan adalah …',opts:['Lemparan mendatar','Lemparan menggelinding','Lemparan melambung'],a:0,why:'Lemparan mendatar bergerak relatif lurus ke depan.'},
+ {q:'Bola perlu bergerak rendah dan bergulir di tanah. Pilih …',opts:['Lemparan melambung','Lemparan mendatar','Lemparan menggelinding'],a:2,why:'Lemparan menggelinding diarahkan rendah agar bola bergulir di permukaan tanah.'}
+];
+const postQ=[
+ {q:'Apa ciri utama lemparan melambung?',opts:['Lintasan tinggi dan melengkung','Bola bergulir di tanah','Lintasan selalu lurus di tanah'],a:0},
+ {q:'Saat melakukan lemparan mendatar, pandangan diarahkan ke …',opts:['Belakang badan','Sasaran','Langit'],a:1},
+ {q:'Mengapa keselamatan perlu diperhatikan saat berlatih?',opts:['Agar dapat melempar sembarangan','Agar semua bola dilempar sekuat mungkin','Agar latihan aman bagi semua orang'],a:2}
+];
+function renderQuestions(containerId,questions,answers,prefix){let c=$('#'+containerId);c.innerHTML=questions.map((q,i)=>`<div class="question" data-q="${prefix}${i}"><strong>${q.q}</strong><div class="options">${q.opts.map((o,j)=>`<button type="button" class="option ${answers[i]===j?'selected':''}" data-pick="${prefix}" data-i="${i}" data-v="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}</div><div class="feedback" id="fb-${prefix}${i}"></div></div>`).join('');c.querySelectorAll('[data-pick]').forEach(b=>b.addEventListener('click',()=>{let arr=prefix==='pre'?state.preAnswers:prefix==='quiz'?state.quizAnswers:state.postAnswers;arr[Number(b.dataset.i)]=Number(b.dataset.v);c.querySelectorAll(`[data-q="${prefix}${b.dataset.i}"] .option`).forEach(x=>x.classList.toggle('selected',x===b));$('#'+(prefix==='pre'?'preResult':prefix==='quiz'?'quizResult':'postResult')).classList.add('hidden');if(prefix==='quiz')$('#quizProgress').style.width=(arr.filter(v=>v!==null).length/3*100)+'%';}));}
+renderQuestions('pretestContainer',preQ,state.preAnswers,'pre');
+renderQuestions('quizContainer',quizQ,state.quizAnswers,'quiz');
+renderQuestions('posttestContainer',postQ,state.postAnswers,'post');
+function grade(questions,answers){return Math.round(answers.reduce((n,a,i)=>n+(a===questions[i].a?1:0),0)/questions.length*100)}
+$('#submitPre').addEventListener('click',()=>{if(state.preAnswers.some(v=>v===null)){showResult('preResult','Silakan jawab semua soal terlebih dahulu.','try');return;}state.preScore=grade(preQ,state.preAnswers);showResult('preResult',`Skor asesmen awal: ${state.preScore}/100. Pelajari materi untuk meningkatkan pemahamanmu.`, 'good');});
+function showResult(id,text,cls){let el=$('#'+id);el.textContent=text;el.className='status '+cls;}
+$('#submitQuiz').addEventListener('click',()=>{if(state.quizAnswers.some(v=>v===null)){showResult('quizResult','Lengkapi jawaban untuk ketiga soal terlebih dahulu.','try');return;}state.quizScore=grade(quizQ,state.quizAnswers);quizQ.forEach((q,i)=>{let f=$('#fb-quiz'+i);f.textContent=state.quizAnswers[i]===q.a?'✓ Benar! '+q.why:'Belum tepat. Jawaban benar: '+q.opts[q.a]+'. '+q.why;f.style.color=state.quizAnswers[i]===q.a?'#17643a':'#a02c2c';});showResult('quizResult',`Hasil kuis: ${state.quizScore}/100 (${state.quizAnswers.filter((v,i)=>v===quizQ[i].a).length} dari 3 benar). ${state.quizScore===100?'Hebat! Semua jawaban benar.':'Pelajari kembali materi dan coba lagi jika diperlukan.'}`,'good');});
+$('#retryQuiz').addEventListener('click',()=>{state.quizAnswers=[null,null,null];state.quizScore=null;renderQuestions('quizContainer',quizQ,state.quizAnswers,'quiz');$('#quizProgress').style.width='0';$('#quizResult').classList.add('hidden');});
+$('#submitPost').addEventListener('click',()=>{if(state.postAnswers.some(v=>v===null)){showResult('postResult','Silakan jawab semua soal terlebih dahulu.','try');return;}state.postScore=grade(postQ,state.postAnswers);postQ.forEach((q,i)=>{let f=$('#fb-post'+i);f.textContent=state.postAnswers[i]===q.a?'✓ Benar!':'Jawaban yang tepat: '+q.opts[q.a];f.style.color=state.postAnswers[i]===q.a?'#17643a':'#a02c2c';});showResult('postResult',`Skor asesmen akhir: ${state.postScore}/100. ${state.postScore>=80?'Bagus! Pertahankan pemahamanmu.':'Pelajari kembali materi dan minta umpan balik dari guru.'}`,'good');});
+const scenarios=[
+ {text:'Situasi 1: Teman berada agak jauh. Bola perlu melewati lintasan tinggi.',target:'melambung',why:'Lintasan tinggi dan melengkung sesuai dengan lemparan melambung.'},
+ {text:'Situasi 2: Teman berada tepat di depan. Bola dikirim melalui lintasan relatif lurus.',target:'mendatar',why:'Lemparan mendatar mengarahkan bola relatif lurus ke depan.'},
+ {text:'Situasi 3: Bola harus diarahkan rendah agar bergulir di permukaan tanah.',target:'menggelinding',why:'Lemparan menggelinding mengarahkan bola rendah ke tanah.'}
+];
+function setSimTech(tech){state.simTech=tech;$$('[data-simtech]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.simtech===tech)));$('#simFeedback').className='status';$('#simFeedback').textContent='Teknik dipilih: '+tech+'. Tekan “Lempar!” untuk melihat hasil.';}
+$$('[data-simtech]').forEach(b=>b.addEventListener('click',()=>setSimTech(b.dataset.simtech)));
+function updateScenario(){let s=scenarios[state.scenario];$('#scenarioText').innerHTML='<strong>'+s.text+'</strong>';$('#trajectory').setAttribute('d',techs[state.simTech].path);$('#trajectory').setAttribute('stroke',techs[state.simTech].color);resetBall();$('#simFeedback').className='status';$('#simFeedback').textContent='Pilih teknik yang sesuai dengan situasi di atas.';}
+function resetBall(){let y=state.simTech==='menggelinding'?220:150;$('#simBall').setAttribute('cx','150');$('#simBall').setAttribute('cy',y);$('#trajectory').setAttribute('d',techs[state.simTech].path);$('#trajectory').setAttribute('stroke',techs[state.simTech].color);}
+function animateBall(){let ball=$('#simBall'),tech=state.simTech;let start=performance.now(),duration=750;let fromY=tech==='menggelinding'?220:150;function frame(now){let p=Math.min(1,(now-start)/duration),x=150+400*p,y;if(tech==='melambung')y=150-145*4*p*(1-p);else if(tech==='mendatar')y=150;else y=220+10*Math.sin(p*Math.PI);ball.setAttribute('cx',x);ball.setAttribute('cy',y);if(p<1)requestAnimationFrame(frame);}requestAnimationFrame(frame);}
+$('#throwBtn').addEventListener('click',()=>{let s=scenarios[state.scenario];animateBall();if(state.simTech===s.target){state.simScore++;state.simDone[state.scenario]=true;showResult('simFeedback','Tepat! '+s.why,'good');}else{showResult('simFeedback','Coba lagi. Perhatikan petunjuk arah bola. '+s.why,'try');}});
+$('#nextScenario').addEventListener('click',()=>{state.scenario=(state.scenario+1)%scenarios.length;state.simTech='melambung';setSimTech('melambung');updateScenario();});
+$('#resetSim').addEventListener('click',()=>{setSimTech('melambung');resetBall();$('#simFeedback').className='status';$('#simFeedback').textContent='Simulasi diulang. Pilih teknik yang sesuai.';});
+function updateFinal(){$('#finalPre').textContent=state.preScore===null?'—':state.preScore;$('#finalQuiz').textContent=state.quizScore===null?'—':state.quizScore;$('#finalPost').textContent=state.postScore===null?'—':state.postScore;}
+$('#saveReflection').addEventListener('click',()=>{let chosen=$('input[name="refTechnique"]:checked');let challenge=$('#refChallenge').value.trim(),safety=$('#refSafety').value.trim();if(!chosen&&!challenge&&!safety){showResult('reflectionFeedback','Isi setidaknya satu bagian refleksi sebelum menyimpan.','try');return;}try{sessionStorage.setItem('mpiReflection',JSON.stringify({technique:chosen?chosen.value:'',challenge,safety}));}catch(e){}showResult('reflectionFeedback','Refleksi tersimpan untuk sesi ini. Terima kasih sudah berpikir tentang proses belajarmu!','good');});
+$('#finishBtn').addEventListener('click',()=>go('selesai'));
+$('#audioBtn').addEventListener('click',()=>{state.audio=!state.audio;$('#audioBtn').textContent=state.audio?'🔊 Audio: Aktif':'🔊 Audio: Mati';$('#audioBtn').setAttribute('aria-pressed',String(state.audio));if(state.audio){if('speechSynthesis'in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance('Selamat belajar PJOK. Mari mengenal lemparan melambung, mendatar, dan menggelinding.');u.lang='id-ID';speechSynthesis.speak(u);}else alert('Fitur suara otomatis tidak tersedia di peramban ini.');}else if('speechSynthesis'in window)speechSynthesis.cancel();});
+updateScenario();
+</script>
+</body>
+</html>
